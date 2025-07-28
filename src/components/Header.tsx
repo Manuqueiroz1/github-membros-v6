@@ -30,24 +30,12 @@ export default function Header({ userName, userEmail, onLogout, onCommunityClick
               </h1>
             </div>
           </div>
-            {isUserAdmin ? (
-              /* Admin View */
-              <button 
-                className="hidden lg:block p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                title="Suporte"
-                onClick={() => {
-                  // Trigger support modal
-                  const event = new CustomEvent('openSupport');
-                  window.dispatchEvent(event);
-                }}
-              >
-                <MessageSquare className="h-5 w-5" />
-              </button>
-            ) : (
-              /* Student View */
-              <>
+            
+            <div className="flex items-center space-x-1">
+              {isUserAdmin ? (
+                /* Admin View */
                 <button 
-                  className="hidden lg:block p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                   title="Suporte"
                   onClick={() => {
                     // Trigger support modal
@@ -57,37 +45,40 @@ export default function Header({ userName, userEmail, onLogout, onCommunityClick
                 >
                   <MessageSquare className="h-5 w-5" />
                 </button>
-                
-                <button 
-                  onClick={onCommunityClick}
-                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                  title="Comunidade"
-                >
-                  <Users className="h-5 w-5" />
-                </button>
-                
-                <button 
-                  onClick={onSettingsClick}
-                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                  title="Configurações"
-                >
-                  <Settings className="h-5 w-5" />
-                </button>
-              </>
-            )}
+              ) : (
+                /* Student View */
+                <>
+                  <button 
+                    className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    title="Suporte"
+                    onClick={() => {
+                      // Trigger support modal
+                      const event = new CustomEvent('openSupport');
+                      window.dispatchEvent(event);
+                    }}
+                  >
+                    <MessageSquare className="h-5 w-5" />
+                  </button>
+                  
+                  <button 
+                    onClick={onCommunityClick}
+                    className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    title="Comunidade"
+                  >
+                    <Users className="h-5 w-5" />
+                  </button>
+                  
+                  <button 
+                    onClick={onSettingsClick}
+                    className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    title="Configurações"
+                  >
+                    <Settings className="h-5 w-5" />
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-          
-          <button 
-            className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-            title="Suporte"
-            onClick={() => {
-              // Trigger support modal
-              const event = new CustomEvent('openSupport');
-              window.dispatchEvent(event);
-            }}
-          >
-            <MessageSquare className="h-5 w-5" />
-          </button>
         </div>
     </header>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Settings } from 'lucide-react';
+import { Users, Settings, Shield } from 'lucide-react';
 import { isAdmin } from '../utils/adminConfig';
 
 interface HeaderProps {
@@ -12,6 +12,8 @@ interface HeaderProps {
 }
 
 export default function Header({ userName, userEmail, onLogout, onCommunityClick, onSettingsClick, onAdminPanel }: HeaderProps) {
+  const isUserAdmin = userEmail && isAdmin(userEmail);
+
   return (
     <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,40 +26,41 @@ export default function Header({ userName, userEmail, onLogout, onCommunityClick
             />
             <div className="ml-2 sm:ml-4 min-w-0 flex-1">
               <h1 className="text-sm sm:text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight truncate">
-                Teacher Poli
+                {isUserAdmin ? 'Teacher Poli - Admin' : 'Teacher Poli'}
               </h1>
             </div>
           </div>
           
           <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
-            {/* Community Icon */}
-            <button 
-              onClick={onCommunityClick}
-              className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              title="Comunidade"
-            >
-              <Users className="h-5 w-5" />
-            </button>
-            
-            {/* Settings Button */}
-            <button 
-              onClick={onSettingsClick}
-              className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              title="Configurações"
-            >
-              <Settings className="h-5 w-5" />
-            </button>
-            
-            {/* Admin Panel Button - Only visible for admins on desktop */}
-            {userEmail && isAdmin(userEmail) && onAdminPanel && (
+            {isUserAdmin ? (
+              /* Admin View */
               <button 
                 onClick={onAdminPanel}
-                className="hidden lg:flex items-center space-x-1 px-3 py-2 text-xs text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors border border-red-200 dark:border-red-800 rounded-lg"
-                title="Painel Admin"
+                className="flex items-center space-x-2 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors border border-red-200 dark:border-red-800 rounded-lg"
+                title="Painel Administrativo"
               >
-                <Settings className="h-4 w-4" />
-                <span>Admin</span>
+                <Shield className="h-4 w-4" />
+                <span className="hidden sm:inline">Painel Admin</span>
               </button>
+            ) : (
+              /* Student View */
+              <>
+                <button 
+                  onClick={onCommunityClick}
+                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  title="Comunidade"
+                >
+                  <Users className="h-5 w-5" />
+                </button>
+                
+                <button 
+                  onClick={onSettingsClick}
+                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  title="Configurações"
+                >
+                  <Settings className="h-5 w-5" />
+                </button>
+              </>
             )}
           </div>
         </div>

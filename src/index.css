@@ -92,12 +92,7 @@
   }
   
   /* Mobile-specific improvements */
-  @media (max-width: 1024px) {
-    /* Ensure content doesn't get hidden behind bottom navigation */
-    body {
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-    
+  @media (max-width: 1024px) {    
     /* Better touch targets */
     button, a[role="button"] {
       min-height: 44px;

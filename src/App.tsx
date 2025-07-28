@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { User } from './types';
 import WelcomeModal from './components/WelcomeModal';
-import AdminPanel from './components/AdminPanel';
 import { isAdmin } from './utils/adminConfig';
 
 // Components
@@ -21,6 +20,9 @@ import LoginPage from './components/LoginPage';
 import EmailVerificationPage from './components/EmailVerificationPage';
 import PasswordCreationPage from './components/PasswordCreationPage';
 
+// Admin Components (lazy loaded)
+const AdminPanel = React.lazy(() => import('./components/AdminPanel'));
+
 type AuthStep = 'login' | 'verification' | 'password' | 'authenticated';
 
 export default function App() {
@@ -33,15 +35,18 @@ export default function App() {
   const [blockedTabName, setBlockedTabName] = useState('');
   const [showAdminPanel, setShowAdminPanel] = useState(false);
 
+  // Check if current user is admin
+  const isUserAdmin = user && isAdmin(user.email);
+
   // Show welcome modal for first-time users
   React.useEffect(() => {
-    if (user && user.firstAccess && !user.hasGeneratedPlan && authStep === 'authenticated') {
+    if (user && user.firstAccess && !user.hasGeneratedPlan && authStep === 'authenticated' && !isUserAdmin) {
       // Show welcome modal after a short delay to ensure smooth transition
       setTimeout(() => {
         setShowWelcomeModal(true);
       }, 500);
     }
-  }, [user, authStep]);
+  }, [user, authStep, isUserAdmin]);
 
   const handleLogin = async (email: string, password?: string) => {
     // Simular login bem-sucedido
@@ -50,12 +55,17 @@ export default function App() {
       email,
       isVerified: true,
       hasPassword: true,
-      hasGeneratedPlan: false,
-      firstAccess: !localStorage.getItem(`user_completed_${email}`) // Only first access if never completed before
+      hasGeneratedPlan: isAdmin(email), // Admins don't need to generate plan
+      firstAccess: !localStorage.getItem(`user_completed_${email}`) && !isAdmin(email) // Admins skip onboarding
     };
     
     setUser(userData);
     setAuthStep('authenticated');
+    
+    // If admin, go directly to admin panel
+    if (isAdmin(email)) {
+      setShowAdminPanel(true);
+    }
   };
 
   const handleNeedPassword = (email: string) => {
@@ -70,12 +80,17 @@ export default function App() {
       email: currentEmail,
       isVerified: true,
       hasPassword: true,
-      hasGeneratedPlan: false,
-      firstAccess: true
+      hasGeneratedPlan: isAdmin(currentEmail),
+      firstAccess: !isAdmin(currentEmail)
     };
     
     setUser(userData);
     setAuthStep('authenticated');
+    
+    // If admin, go directly to admin panel
+    if (isAdmin(currentEmail)) {
+      setShowAdminPanel(true);
+    }
   };
 
   const handleBackToLogin = () => {
@@ -88,6 +103,7 @@ export default function App() {
     setActiveTab('onboarding');
     setAuthStep('login');
     setCurrentEmail('');
+    setShowAdminPanel(false);
   };
 
   const handlePlanGenerated = () => {
@@ -127,7 +143,7 @@ export default function App() {
 
   // Determine locked tabs based on user progress
   const getLockedTabs = () => {
-    if (!user) return [];
+    if (!user || isUserAdmin) return []; // Admins have access to everything
     
     // Only lock tabs on first access AND if user hasn't generated a plan yet
     if (user.firstAccess && !user.hasGeneratedPlan) {
@@ -157,17 +173,37 @@ export default function App() {
     }
   }
 
-  // Main application
+  // Admin Panel View
+  if (isUserAdmin && showAdminPanel) {
+    return (
+      <React.Suspense fallback={
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-gray-300">Carregando painel administrativo...</p>
+          </div>
+        </div>
+      }>
+        <AdminPanel
+          isVisible={true}
+          onToggle={() => setShowAdminPanel(false)}
+          userEmail={user.email}
+        />
+      </React.Suspense>
+    );
+  }
+
+  // Student Application
   return (
     <>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-16 lg:pb-0">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <Header 
           userName={user.name} 
           userEmail={user.email}
           onLogout={handleLogout}
           onCommunityClick={handleCommunityClick}
           onSettingsClick={handleSettingsClick}
-          onAdminPanel={() => setShowAdminPanel(true)}
+          onAdminPanel={isUserAdmin ? () => setShowAdminPanel(true) : undefined}
         />
         <Navigation 
           activeTab={activeTab} 
@@ -176,7 +212,7 @@ export default function App() {
           onLockedTabClick={handleLockedTabClick}
         />
         
-        <main className="pb-20 lg:pb-8 pt-0 lg:pt-4">
+        <main className="pb-8 pt-0 lg:pt-4">
           {activeTab === 'onboarding' && <OnboardingSection />}
           {activeTab === 'ai-assistant' && (
             <AIAssistantSection onPlanGenerated={handlePlanGenerated} />
@@ -188,27 +224,22 @@ export default function App() {
         </main>
       </div>
 
-      {/* Welcome Modal */}
-      <WelcomeModal
-        isOpen={showWelcomeModal}
-        onClose={handleWelcomeModalClose}
-        userName={user.name}
-      />
+      {/* Welcome Modal - Only for students */}
+      {!isUserAdmin && (
+        <WelcomeModal
+          isOpen={showWelcomeModal}
+          onClose={handleWelcomeModalClose}
+          userName={user.name}
+        />
+      )}
 
-      {/* Plan Required Modal */}
-      <PlanRequiredModal
-        isOpen={showPlanRequiredModal}
-        onClose={() => setShowPlanRequiredModal(false)}
-        onGoToPlan={handleGoToPlan}
-        tabName={blockedTabName}
-      />
-
-      {/* Admin Panel - Only for administrators */}
-      {user && isAdmin(user.email) && (
-        <AdminPanel
-          isVisible={showAdminPanel}
-          onToggle={() => setShowAdminPanel(!showAdminPanel)}
-          userEmail={user.email}
+      {/* Plan Required Modal - Only for students */}
+      {!isUserAdmin && (
+        <PlanRequiredModal
+          isOpen={showPlanRequiredModal}
+          onClose={() => setShowPlanRequiredModal(false)}
+          onGoToPlan={handleGoToPlan}
+          tabName={blockedTabName}
         />
       )}
     </>

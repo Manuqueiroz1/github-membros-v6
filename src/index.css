@@ -66,7 +66,7 @@
     }
     
     .safe-area-bottom {
-      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
     }
     
     .safe-area-left {
@@ -88,6 +88,25 @@
     *:focus {
       transition: outline-offset 0.2s ease;
       outline-offset: 2px;
+    }
+  }
+  
+  /* Mobile-specific improvements */
+  @media (max-width: 1024px) {
+    /* Ensure content doesn't get hidden behind bottom navigation */
+    body {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    /* Better touch targets */
+    button, a[role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Improve video player on mobile */
+    iframe {
+      border: none;
     }
   }
 }

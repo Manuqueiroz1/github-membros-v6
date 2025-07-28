@@ -165,27 +165,21 @@ export default function App() {
           userEmail={user.email}
           onLogout={handleLogout}
           onAdminPanel={() => setShowAdminPanel(true)}
-          onMenuToggle={handleMobileMenuToggle}
-          isMobileMenuOpen={isMobileMenuOpen}
         />
         <Navigation 
           activeTab={activeTab} 
           onTabChange={setActiveTab}
           lockedTabs={getLockedTabs()}
           onLockedTabClick={handleLockedTabClick}
-          isMobileMenuOpen={isMobileMenuOpen}
-          onMobileMenuClose={() => setIsMobileMenuOpen(false)}
         />
         
-        <main className="pb-8 pt-4 lg:pt-0">
+        <main className="pb-20 lg:pb-8 pt-0 lg:pt-4">
           {activeTab === 'onboarding' && <OnboardingSection />}
           {activeTab === 'ai-assistant' && (
             <AIAssistantSection onPlanGenerated={handlePlanGenerated} />
           )}
           {activeTab === 'teacher-poli' && <TeacherPoliSection />}
           {activeTab === 'resources' && <ResourcesSection />}
-          {activeTab === 'community' && <CommunitySection />}
-          {activeTab === 'settings' && <SettingsSection />}
         </main>
       </div>
 

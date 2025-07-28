@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, CheckCircle, Clock } from 'lucide-react';
+import { Play, CheckCircle, Clock, MessageCircle } from 'lucide-react';
 import SupportButton from './SupportButton';
 import { OnboardingVideo, getOnboardingVideos, saveOnboardingVideos } from '../data/onboardingData';
 
@@ -7,6 +7,7 @@ export default function OnboardingSection() {
   const [videos, setVideos] = useState<OnboardingVideo[]>(getOnboardingVideos());
   const [selectedVideo, setSelectedVideo] = useState<OnboardingVideo | null>(videos[0]);
   const [showPlayer, setShowPlayer] = useState(true);
+  const [activeTab, setActiveTab] = useState<'videos' | 'support'>('videos');
 
   // Atualizar videos quando dados mudarem e escutar mudanças do admin
   React.useEffect(() => {
@@ -38,6 +39,7 @@ export default function OnboardingSection() {
   const handleVideoSelect = (video: OnboardingVideo) => {
     setSelectedVideo(video);
     setShowPlayer(true);
+    setActiveTab('videos');
   };
 
   const markAsCompleted = (videoId: string) => {
@@ -64,26 +66,126 @@ export default function OnboardingSection() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-      <div className="mb-8">
+    <div className="max-w-7xl mx-auto px-0 lg:px-8 py-0 lg:py-8">
+      {/* Desktop Header - Hidden on mobile */}
+      <div className="hidden lg:block mb-8 px-4 sm:px-6">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Comece por Aqui</h2>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Dê os primeiros passos na sua jornada de aprendizado com a Teacher Poli</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
+        {/* Video Player */}
+        {selectedVideo && showPlayer && (
+          <div className="bg-gray-200 dark:bg-gray-700">
+            <div className="aspect-video">
+              <iframe
+                src={selectedVideo.embedUrl}
+                title={selectedVideo.title}
+                className="w-full h-full"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Tabs */}
+        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex">
+            <button
+              onClick={() => setActiveTab('videos')}
+              className={`flex-1 py-3 px-4 text-center font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'videos'
+                  ? 'border-purple-500 text-purple-600 dark:text-purple-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400'
+              }`}
+            >
+              Vídeos
+            </button>
+            <button
+              onClick={() => setActiveTab('support')}
+              className={`flex-1 py-3 px-4 text-center font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'support'
+                  ? 'border-purple-500 text-purple-600 dark:text-purple-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400'
+              }`}
+            >
+              Suporte
+            </button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="bg-white dark:bg-gray-800 min-h-[50vh]">
+          {activeTab === 'videos' ? (
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
+              {videos.map((video) => (
+                <div
+                  key={video.id}
+                  className={`p-4 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                    selectedVideo?.id === video.id ? 'bg-purple-50 dark:bg-purple-900/30' : ''
+                  }`}
+                  onClick={() => handleVideoSelect(video)}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 mt-1">
+                      {video.completed ? (
+                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                          <CheckCircle className="h-4 w-4 text-white fill-current" />
+                        </div>
+                      ) : (
+                        <div className="w-6 h-6 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center">
+                          <Play className="h-3 w-3 text-purple-600 dark:text-purple-400" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base font-medium text-gray-900 dark:text-white line-clamp-2 mb-1">
+                        {video.title}
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">
+                        {video.description}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
+                          <Clock className="h-3 w-3 mr-1" />
+                          {video.duration}
+                        </div>
+                        {video.completed && (
+                          <span className="text-xs text-green-600 dark:text-green-400 font-medium">Concluída</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-6 text-center">
+              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageCircle className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Precisa de ajuda?</h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-6">Nossa equipe está aqui para te apoiar em cada passo</p>
+              <SupportButton position="inline" variant="primary" />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6">
         {/* Video List */}
         <div className="lg:col-span-1 order-2 lg:order-1">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-            <div className="p-4 sm:p-6 border-b border-gray-200">
+            <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Lista de Vídeos</h3>
             </div>
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {videos.map((video) => (
                 <div
                   key={video.id}
-                  className={`p-4 cursor-pointer transition-colors ${
-                    'hover:bg-gray-50 dark:hover:bg-gray-700'
-                  } ${
+                  className={`p-4 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 ${
                     selectedVideo?.id === video.id ? 'bg-purple-50 dark:bg-purple-900/30 border-r-4 border-purple-500' : ''
                   }`}
                   onClick={() => handleVideoSelect(video)}
@@ -105,8 +207,8 @@ export default function OnboardingSection() {
                       </p>
                       <div className="flex items-center justify-between mt-2">
                         <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {video.duration}
+                          <Clock className="h-3 w-3 mr-1" />
+                          {video.duration}
                         </div>
                         {video.completed && (
                           <span className="text-xs text-green-600 font-medium">Concluída</span>
@@ -119,6 +221,7 @@ export default function OnboardingSection() {
             </div>
           </div>
         </div>
+      </div>
 
         {/* Video Player */}
         <div className="lg:col-span-2 order-1 lg:order-2">
@@ -163,7 +266,7 @@ export default function OnboardingSection() {
                 </div>
               </div>
             ) : (
-              <div className="aspect-video flex items-center justify-center bg-gray-100 rounded-t-lg">
+              <div className="aspect-video flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-t-lg">
                 <div className="text-center">
                   <Play className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-500 dark:text-gray-400">Selecione um vídeo para começar</p>
@@ -174,15 +277,12 @@ export default function OnboardingSection() {
         </div>
       </div>
 
-      {/* Support Section */}
-      <div className="mt-6 sm:mt-8 bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 sm:p-6 text-center">
+      {/* Desktop Support Section */}
+      <div className="hidden lg:block mt-6 sm:mt-8 bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 sm:p-6 text-center mx-4 sm:mx-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Precisa de ajuda?</h3>
         <p className="text-gray-600 dark:text-gray-300 mb-4">Nossa equipe está aqui para te apoiar em cada passo</p>
         <SupportButton position="inline" variant="primary" />
       </div>
-
-      {/* Fixed Support Button */}
-      <SupportButton />
     </div>
   );
 }

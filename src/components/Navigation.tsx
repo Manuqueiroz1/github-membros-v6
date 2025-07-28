@@ -6,23 +6,19 @@ interface NavigationProps {
   onTabChange: (tab: string) => void;
   lockedTabs?: string[];
   onLockedTabClick?: (tabId: string) => void;
-  isMobileMenuOpen?: boolean;
-  onMobileMenuClose?: () => void;
 }
 
 export default function Navigation({ 
   activeTab, 
   onTabChange, 
   lockedTabs = [], 
-  onLockedTabClick,
-  isMobileMenuOpen = false,
-  onMobileMenuClose
+  onLockedTabClick
 }: NavigationProps) {
   const tabs = [
-    { id: 'onboarding', label: 'Início', icon: Home, mobileLabel: 'Início' },
-    { id: 'ai-assistant', label: 'Meu Plano', icon: Target, mobileLabel: 'Meu Plano' },
-    { id: 'teacher-poli', label: 'Teacher Poli', icon: GraduationCap, mobileLabel: 'Teacher Poli' },
-    { id: 'resources', label: 'Bônus', icon: Gift, mobileLabel: 'Bônus' },
+    { id: 'onboarding', label: 'Início', icon: Home },
+    { id: 'ai-assistant', label: 'Meu Plano', icon: Target },
+    { id: 'teacher-poli', label: 'Teacher Poli', icon: GraduationCap },
+    { id: 'resources', label: 'Bônus', icon: Gift },
   ];
 
   const handleTabClick = (tabId: string) => {
@@ -31,13 +27,12 @@ export default function Navigation({
     } else {
       onTabChange(tabId);
     }
-    onMobileMenuClose?.();
   };
 
   return (
     <>
       {/* Mobile Bottom Navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-40 safe-area-bottom">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-40">
         <div className="grid grid-cols-4 h-16">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -58,7 +53,7 @@ export default function Navigation({
               >
                 <Icon className="h-5 w-5 flex-shrink-0" />
                 <span className="text-xs font-medium truncate max-w-full px-1">
-                  {tab.mobileLabel || tab.label}
+                  {tab.label}
                 </span>
                 {isLocked && (
                   <div className="absolute top-1 right-1 w-2 h-2 bg-gray-400 rounded-full"></div>
@@ -72,7 +67,7 @@ export default function Navigation({
         </div>
       </nav>
 
-      {/* Desktop Navigation - Hidden on mobile */}
+      {/* Desktop Navigation */}
       <nav className="hidden lg:block bg-white dark:bg-gray-800 shadow-sm sticky top-16 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8 overflow-x-auto scrollbar-hide">

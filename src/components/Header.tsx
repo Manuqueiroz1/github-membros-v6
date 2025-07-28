@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Settings, Menu, X } from 'lucide-react';
+import { User, Settings } from 'lucide-react';
 import { isAdmin } from '../utils/adminConfig';
 
 interface HeaderProps {
@@ -7,11 +7,9 @@ interface HeaderProps {
   userEmail?: string;
   onLogout: () => void;
   onAdminPanel?: () => void;
-  onMenuToggle?: () => void;
-  isMobileMenuOpen?: boolean;
 }
 
-export default function Header({ userName, userEmail, onLogout, onAdminPanel, onMenuToggle, isMobileMenuOpen }: HeaderProps) {
+export default function Header({ userName, userEmail, onLogout, onAdminPanel }: HeaderProps) {
   return (
     <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,8 +22,7 @@ export default function Header({ userName, userEmail, onLogout, onAdminPanel, on
             />
             <div className="ml-2 sm:ml-4 min-w-0 flex-1">
               <h1 className="text-sm sm:text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight truncate">
-                <span className="hidden sm:inline">Teacher Poli</span>
-                <span className="sm:hidden">Teacher Poli</span>
+                Teacher Poli
               </h1>
             </div>
           </div>
@@ -36,7 +33,7 @@ export default function Header({ userName, userEmail, onLogout, onAdminPanel, on
               <User className="h-5 w-5" />
             </button>
             
-            {/* Settings/Admin Button */}
+            {/* Settings Button */}
             <button 
               onClick={userEmail && isAdmin(userEmail) ? onAdminPanel : undefined}
               className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
@@ -44,7 +41,7 @@ export default function Header({ userName, userEmail, onLogout, onAdminPanel, on
               <Settings className="h-5 w-5" />
             </button>
             
-            {/* Admin Panel Button - Hidden for non-admins */}
+            {/* Admin Panel Button - Only visible for admins on desktop */}
             {userEmail && isAdmin(userEmail) && onAdminPanel && (
               <button 
                 onClick={onAdminPanel}
@@ -52,7 +49,7 @@ export default function Header({ userName, userEmail, onLogout, onAdminPanel, on
                 title="Painel Admin"
               >
                 <Settings className="h-4 w-4" />
-                <span className="hidden lg:inline">Admin</span>
+                <span>Admin</span>
               </button>
             )}
           </div>

@@ -32,7 +32,6 @@ export default function App() {
   const [showPlanRequiredModal, setShowPlanRequiredModal] = useState(false);
   const [blockedTabName, setBlockedTabName] = useState('');
   const [showAdminPanel, setShowAdminPanel] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Show welcome modal for first-time users
   React.useEffect(() => {
@@ -59,12 +58,10 @@ export default function App() {
     setAuthStep('authenticated');
   };
 
-
   const handleNeedPassword = (email: string) => {
     setCurrentEmail(email);
     setAuthStep('password');
   };
-
 
   const handlePasswordCreated = () => {
     // Criar usuário após senha criada
@@ -120,17 +117,13 @@ export default function App() {
     setActiveTab('ai-assistant');
   };
 
-  const handleMobileMenuToggle = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
   // Determine locked tabs based on user progress
   const getLockedTabs = () => {
     if (!user) return [];
     
     // Only lock tabs on first access AND if user hasn't generated a plan yet
     if (user.firstAccess && !user.hasGeneratedPlan) {
-      return ['teacher-poli', 'resources', 'community']; // settings is now always unlocked
+      return ['teacher-poli', 'resources'];
     }
     
     return [];

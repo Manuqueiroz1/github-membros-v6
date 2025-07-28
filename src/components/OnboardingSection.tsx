@@ -6,7 +6,6 @@ import { OnboardingVideo, getOnboardingVideos, saveOnboardingVideos } from '../d
 export default function OnboardingSection() {
   const [videos, setVideos] = useState<OnboardingVideo[]>(getOnboardingVideos());
   const [selectedVideo, setSelectedVideo] = useState<OnboardingVideo | null>(videos[0]);
-  const [showPlayer, setShowPlayer] = useState(true);
   const [activeTab, setActiveTab] = useState<'videos' | 'support'>('videos');
 
   // Atualizar videos quando dados mudarem e escutar mudanças do admin
@@ -38,7 +37,6 @@ export default function OnboardingSection() {
 
   const handleVideoSelect = (video: OnboardingVideo) => {
     setSelectedVideo(video);
-    setShowPlayer(true);
     setActiveTab('videos');
   };
 
@@ -76,7 +74,7 @@ export default function OnboardingSection() {
       {/* Mobile Layout */}
       <div className="lg:hidden">
         {/* Video Player */}
-        {selectedVideo && showPlayer && (
+        {selectedVideo && (
           <div className="bg-gray-200 dark:bg-gray-700">
             <div className="aspect-video">
               <iframe
@@ -221,12 +219,11 @@ export default function OnboardingSection() {
             </div>
           </div>
         </div>
-      </div>
 
         {/* Video Player */}
         <div className="lg:col-span-2 order-1 lg:order-2">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-            {selectedVideo && showPlayer ? (
+            {selectedVideo ? (
               <div>
                 <div className="aspect-video rounded-t-lg overflow-hidden">
                   <iframe

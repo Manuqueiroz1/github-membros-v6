@@ -28,19 +28,19 @@ export default function AIAssistantSection({ onPlanGenerated }: AIAssistantSecti
 
   const studyPlanTemplates = [
     {
-      title: 'Inglês Básico',
-      description: 'Plano para iniciantes em inglês',
+      title: 'Plano Básico',
+      description: 'Para iniciantes em inglês',
       duration: '30 dias',
       icon: BookOpen
     },
     {
-      title: 'Inglês Intermediário',
+      title: 'Plano Intermediário',
       description: 'Aperfeiçoe suas habilidades',
       duration: '30 dias',
       icon: Target
     },
     {
-      title: 'Inglês Avançado',
+      title: 'Plano Avançado',
       description: 'Fluência e proficiência',
       duration: '30 dias',
       icon: Sparkles
@@ -114,43 +114,130 @@ export default function AIAssistantSection({ onPlanGenerated }: AIAssistantSecti
   
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-      <div className="mb-8">
+      {/* Desktop Header - Hidden on mobile */}
+      <div className="hidden lg:block mb-8">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Assistente de IA</h2>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Crie seu plano de estudos personalizado com inteligência artificial</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-        {/* Templates */}
-        <div className="lg:col-span-1 order-2 lg:order-1">
-          {/* Templates com scroll horizontal no mobile */}
-          <div className="lg:hidden mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 px-4">Templates Rápidos</h3>
-            <div className="flex space-x-3 overflow-x-auto pb-4 px-4 scrollbar-hide">
-              {studyPlanTemplates.map((template, index) => {
-                const Icon = template.icon;
-                return (
-                  <button
-                    key={index}
-                    onClick={() => handleTemplateSelect(template)}
-                    className="flex-shrink-0 w-48 p-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors bg-white dark:bg-gray-800"
-                  >
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Icon className="h-4 w-4 text-purple-500 flex-shrink-0" />
-                      <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">{template.title}</h4>
-                    </div>
-                    <p className="text-xs text-gray-600 dark:text-gray-300 text-left line-clamp-2 mb-2">{template.description}</p>
-                    <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                      <Clock className="h-3 w-3 mr-1" />
-                      {template.duration}
-                    </div>
-                  </button>
-                );
-              })}
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
+        {/* Chat Interface */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 h-[400px] flex flex-col mb-6">
+          {/* Chat Header */}
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center space-x-3">
+            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+              <Brain className="h-5 w-5 text-purple-600" />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white">Assistente de IA</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Especialista em ensino de inglês</p>
             </div>
           </div>
 
-          {/* Templates desktop */}
-          <div className="hidden lg:block space-y-6">
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div className={`flex items-start space-x-2 max-w-[85%] ${
+                  message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+                }`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    message.type === 'user' 
+                      ? 'bg-purple-600' 
+                      : 'bg-purple-100'
+                  }`}>
+                    {message.type === 'user' ? (
+                      <User className="h-4 w-4 text-white" />
+                    ) : (
+                      <Bot className="h-4 w-4 text-purple-600" />
+                    )}
+                  </div>
+                  <div className={`rounded-lg px-4 py-2 ${
+                    message.type === 'user'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                  }`}>
+                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="flex items-start space-x-2">
+                  <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                    <Bot className="h-4 w-4 text-purple-600" />
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-2">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Input */}
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex space-x-2 items-center">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                placeholder="Escreva aqui"
+                className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-100"
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={!inputMessage.trim() || isLoading}
+                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-shrink-0"
+              >
+                <Send className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Templates com scroll horizontal */}
+        <div className="mb-6">
+          <div className="flex space-x-3 overflow-x-auto pb-4 px-4 scrollbar-hide">
+            {studyPlanTemplates.map((template, index) => {
+              const Icon = template.icon;
+              return (
+                <button
+                  key={index}
+                  onClick={() => handleTemplateSelect(template)}
+                  className="flex-shrink-0 w-48 p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors bg-white dark:bg-gray-800"
+                >
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Icon className="h-5 w-5 text-purple-500 flex-shrink-0" />
+                    <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">{template.title}</h4>
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-300 text-left line-clamp-2 mb-3">{template.description}</p>
+                  <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
+                    <Clock className="h-3 w-3 mr-1" />
+                    {template.duration}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        {/* Templates */}
+        <div className="lg:col-span-1 order-2 lg:order-1">
+          <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Templates Rápidos</h3>
               <div className="space-y-3">
@@ -201,7 +288,6 @@ export default function AIAssistantSection({ onPlanGenerated }: AIAssistantSecti
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">Válido por 30 dias</p>
               </div>
             )}
-          </div>
           </div>
         </div>
 

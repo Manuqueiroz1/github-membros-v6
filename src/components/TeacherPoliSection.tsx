@@ -5,58 +5,60 @@ import SupportButton from './SupportButton';
 export default function TeacherPoliSection() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-      <div className="mb-8 lg:block hidden">
+      {/* Desktop Header - Hidden on mobile */}
+      <div className="hidden lg:block mb-8">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Teacher Poli</h2>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Sua assistente de IA para aprender inglês de forma personalizada</p>
       </div>
 
-      {/* Mobile Layout - Testimonial Card */}
-      <div className="lg:hidden mb-6">
-        <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl p-6 text-center">
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
+        {/* Testimonial Card */}
+        <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl p-6 text-center mb-6">
           <div className="text-6xl mb-4">💬</div>
           <p className="text-gray-800 dark:text-gray-200 text-lg font-medium mb-4 italic">
             "A Teacher Poli revolucionou meu aprendizado. É como ter uma professora particular 24/7!"
           </p>
           <p className="text-gray-600 dark:text-gray-400 font-medium">- João Santos, Estudante</p>
         </div>
+
+        {/* Access Section */}
+        <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-6 mb-6 text-center">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Acesse a Teacher Poli</h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">Sua assistente de IA que adapta o ensino ao seu ritmo e necessidades</p>
+          
+          <a
+            href="https://app.teacherpoli.com/login"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg mb-4"
+          >
+            Acessar
+          </a>
+          
+          <button className="w-full text-purple-600 dark:text-purple-400 py-3 font-medium hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
+            Ver Demonstração
+          </button>
+        </div>
+
+        {/* Support Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 text-center">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Precisa de ajuda?</h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">Nossa equipe está aqui para te apoiar em cada passo</p>
+          <button 
+            className="w-full flex items-center justify-center px-6 py-3 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 font-semibold rounded-xl hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
+            onClick={() => {
+              const event = new CustomEvent('openSupport');
+              window.dispatchEvent(event);
+            }}
+          >
+            <MessageSquare className="mr-2 h-5 w-5" />
+            Falar com o suporte
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Access Section */}
-      <div className="lg:hidden bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-6 mb-6 text-center">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Acesse a Teacher Poli</h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-6">Sua assistente de IA que adapta o ensino ao seu ritmo e necessidades</p>
-        
-        <a
-          href="https://app.teacherpoli.com/login"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg mb-4"
-        >
-          Acessar
-        </a>
-        
-        <button className="w-full text-purple-600 dark:text-purple-400 py-3 font-medium hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
-          Ver Demonstração
-        </button>
-      </div>
-
-      {/* Mobile Support Section */}
-      <div className="lg:hidden bg-white dark:bg-gray-800 rounded-2xl p-6 text-center">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Precisa de ajuda?</h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">Nossa equipe está aqui para te apoiar em cada passo</p>
-        <button 
-          className="w-full flex items-center justify-center px-6 py-3 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 font-semibold rounded-xl hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
-          onClick={() => {
-            const event = new CustomEvent('openSupport');
-            window.dispatchEvent(event);
-          }}
-        >
-          <MessageSquare className="mr-2 h-5 w-5" />
-          Falar com o suporte
-        </button>
-      </div>
-
-      {/* Desktop Layout - Original */}
+      {/* Desktop Layout */}
       <div className="hidden lg:block">
         {/* Hero Section */}
         <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 text-white">

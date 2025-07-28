@@ -108,16 +108,16 @@ export default function WelcomeModal({ isOpen, onClose, userName }: WelcomeModal
           </div>
 
           {/* Action Button */}
-          <div className="text-center">
+          <div className="text-center mt-6">
             <button
               onClick={onClose}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-4 rounded-xl font-semibold text-base hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg mb-4"
             >
               {welcomeContent.buttonText}
             </button>
             
             {/* Support Section */}
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mt-6 text-center">
+            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
               <h4 className="text-base font-semibold text-gray-900 dark:text-white mb-2">
                 Precisa de ajuda durante o processo?
               </h4>

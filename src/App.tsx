@@ -123,11 +123,13 @@ export default function App() {
   };
 
   const handleLockedTabClick = (tabId: string) => {
+    console.log('Tab bloqueada clicada:', tabId);
     setBlockedTabName(tabId);
     setShowPlanRequiredModal(true);
   };
 
   const handleGoToPlan = () => {
+    console.log('Indo para o plano');
     setShowPlanRequiredModal(false);
     setActiveTab('ai-assistant');
   };

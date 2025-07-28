@@ -95,24 +95,24 @@ export default function PlanRequiredModal({ isOpen, onClose, onGoToPlan, tabName
           </div>
 
           {/* Action Buttons */}
-          <div className="space-y-3">
+          <div className="space-y-3 mt-6">
             <button
               onClick={onGoToPlan}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-4 rounded-xl font-semibold text-base hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg"
             >
               {planRequiredContent.buttonText}
             </button>
             
             <button
               onClick={onClose}
-              className="w-full text-gray-600 dark:text-gray-400 py-3 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+              className="w-full text-gray-600 dark:text-gray-400 py-2 hover:text-gray-800 dark:hover:text-gray-200 transition-colors text-sm"
             >
               Fechar
             </button>
           </div>
 
           {/* Note */}
-          <div className="mt-6 text-center">
+          <div className="mt-4 text-center">
             <p className="text-xs text-gray-500 dark:text-gray-400">
               ⚡ É rápido! Leva apenas alguns minutos para personalizar sua experiência
             </p>

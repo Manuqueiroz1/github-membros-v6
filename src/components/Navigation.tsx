@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Target, GraduationCap, Gift } from 'lucide-react';
+import { Home, Target, GraduationCap, Gift, Users, Settings as SettingsIcon } from 'lucide-react';
 
 interface NavigationProps {
   activeTab: string;
@@ -19,6 +19,8 @@ export default function Navigation({
     { id: 'ai-assistant', label: 'Meu Plano', icon: Target },
     { id: 'teacher-poli', label: 'Teacher Poli', icon: GraduationCap },
     { id: 'resources', label: 'Bônus', icon: Gift },
+    { id: 'community', label: 'Comunidade', icon: Users },
+    { id: 'settings', label: 'Configurações', icon: SettingsIcon },
   ];
 
   const handleTabClick = (tabId: string) => {
@@ -33,7 +35,7 @@ export default function Navigation({
     <>
       {/* Mobile Bottom Navigation */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-40">
-        <div className="grid grid-cols-4 h-16">
+        <div className="grid grid-cols-6 h-16">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isLocked = lockedTabs.includes(tab.id);
@@ -51,8 +53,8 @@ export default function Navigation({
                     : 'text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100'
                 }`}
               >
-                <Icon className="h-5 w-5 flex-shrink-0" />
-                <span className="text-xs font-medium truncate max-w-full px-1">
+                <Icon className="h-4 w-4 flex-shrink-0" />
+                <span className="text-xs font-medium truncate max-w-full px-1 leading-tight">
                   {tab.label}
                 </span>
                 {isLocked && (
@@ -71,7 +73,7 @@ export default function Navigation({
       <nav className="hidden lg:block bg-white dark:bg-gray-800 shadow-sm sticky top-16 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8 overflow-x-auto scrollbar-hide">
-            {tabs.map((tab) => {
+            {tabs.slice(0, 4).map((tab) => {
               const Icon = tab.icon;
               const isLocked = lockedTabs.includes(tab.id);
               return (

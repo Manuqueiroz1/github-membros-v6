@@ -117,13 +117,21 @@ export default function App() {
     setActiveTab('ai-assistant');
   };
 
+  const handleCommunityClick = () => {
+    setActiveTab('community');
+  };
+
+  const handleSettingsClick = () => {
+    setActiveTab('settings');
+  };
+
   // Determine locked tabs based on user progress
   const getLockedTabs = () => {
     if (!user) return [];
     
     // Only lock tabs on first access AND if user hasn't generated a plan yet
     if (user.firstAccess && !user.hasGeneratedPlan) {
-      return ['teacher-poli', 'resources'];
+      return ['teacher-poli', 'resources', 'community', 'settings'];
     }
     
     return [];
@@ -157,6 +165,8 @@ export default function App() {
           userName={user.name} 
           userEmail={user.email}
           onLogout={handleLogout}
+          onCommunityClick={handleCommunityClick}
+          onSettingsClick={handleSettingsClick}
           onAdminPanel={() => setShowAdminPanel(true)}
         />
         <Navigation 
@@ -173,6 +183,8 @@ export default function App() {
           )}
           {activeTab === 'teacher-poli' && <TeacherPoliSection />}
           {activeTab === 'resources' && <ResourcesSection />}
+          {activeTab === 'community' && <CommunitySection />}
+          {activeTab === 'settings' && <SettingsSection />}
         </main>
       </div>
 

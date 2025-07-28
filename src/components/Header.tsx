@@ -31,16 +31,17 @@ export default function Header({ userName, userEmail, onLogout, onCommunityClick
             </div>
           </div>
           
-          <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
-            {isUserAdmin ? (
-              /* Admin View */
+              {/* Suporte - apenas no desktop */}
               <button 
-                onClick={onAdminPanel}
-                className="flex items-center space-x-2 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors border border-red-200 dark:border-red-800 rounded-lg"
-                title="Painel Administrativo"
+                className="hidden lg:block p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                title="Suporte"
+                onClick={() => {
+                  // Trigger support modal
+                  const event = new CustomEvent('openSupport');
+                  window.dispatchEvent(event);
+                }}
               >
-                <Shield className="h-4 w-4" />
-                <span className="hidden sm:inline">Painel Admin</span>
+                <MessageSquare className="h-5 w-5" />
               </button>
             ) : (
               /* Student View */

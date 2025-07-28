@@ -17,7 +17,6 @@ import PlanRequiredModal from './components/PlanRequiredModal';
 
 // Auth Components
 import LoginPage from './components/LoginPage';
-import EmailVerificationPage from './components/EmailVerificationPage';
 import PasswordCreationPage from './components/PasswordCreationPage';
 
 // Admin Components (lazy loaded)
@@ -147,7 +146,7 @@ export default function App() {
     
     // Only lock tabs on first access AND if user hasn't generated a plan yet
     if (user.firstAccess && !user.hasGeneratedPlan) {
-      return ['teacher-poli', 'resources', 'community', 'settings'];
+      return ['teacher-poli', 'resources'];
     }
     
     return [];
@@ -244,5 +243,4 @@ export default function App() {
       )}
     </>
   );
-  isMobile?: boolean;
 }

@@ -32,18 +32,16 @@ export default function WelcomeModal({ isOpen, onClose, userName }: WelcomeModal
     };
   }, []);
 
-  if (!isOpen) return null;
-
-  if (!welcomeContent) return null;
+  if (!isOpen || !welcomeContent) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[70] p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
         {/* Header */}
         <div className="relative p-6 sm:p-8 text-center bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-t-2xl">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-white/80 hover:text-white transition-colors rounded-full hover:bg-white/20"
+            className="absolute top-4 right-4 p-2 text-white/80 hover:text-white transition-colors rounded-full hover:bg-white/20 z-10"
           >
             <X className="h-5 w-5" />
           </button>
@@ -63,9 +61,6 @@ export default function WelcomeModal({ isOpen, onClose, userName }: WelcomeModal
         {/* Content */}
         <div className="p-6 sm:p-8">
           <div className="text-center mb-8">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              {welcomeContent.subtitle}
-            </h3>
             <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
               {welcomeContent.description}
             </p>

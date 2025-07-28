@@ -12,8 +12,7 @@ export default function Navigation({
   activeTab, 
   onTabChange, 
   lockedTabs = [], 
-  onLockedTabClick,
-  isMobile = false
+  onLockedTabClick
 }: NavigationProps) {
   const tabs = [
     { id: 'onboarding', label: 'Início', icon: Home },
@@ -61,7 +60,7 @@ export default function Navigation({
       </nav>
 
       {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-40">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-40 safe-area-bottom">
         <div className="grid grid-cols-4 h-16">
           {tabs.map((tab) => {
             const Icon = tab.icon;

@@ -125,14 +125,10 @@ export default function CommunitySection() {
       </div>
 
       {/* Support Section */}
-     <div className="mt-6 sm:mt-8 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg p-4 sm:p-6 text-center">
-       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Não consegue acessar a comunidade?</h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">Vamos te ajudar a se conectar com outros estudantes</p>
-        <SupportButton position="inline" variant="primary" />
+      <div className="mt-6 sm:mt-8 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg p-4 sm:p-6 text-center">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Não consegue acessar a comunidade?</h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">Use o ícone de suporte no header para falar conosco</p>
       </div>
-
-      {/* Fixed Support Button */}
-      <SupportButton />
     </div>
   );
 }

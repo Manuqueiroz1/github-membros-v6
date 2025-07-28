@@ -277,8 +277,7 @@ export default function OnboardingSection() {
       {/* Desktop Support Section */}
       <div className="hidden lg:block mt-6 sm:mt-8 bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 sm:p-6 text-center mx-4 sm:mx-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Precisa de ajuda?</h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">Nossa equipe está aqui para te apoiar em cada passo</p>
-        <SupportButton position="inline" variant="primary" />
+        <p className="text-gray-600 dark:text-gray-300 mb-4">Use o ícone de suporte no header para falar conosco</p>
       </div>
     </div>
   );

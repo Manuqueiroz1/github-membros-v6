@@ -404,12 +404,8 @@ export default function AIAssistantSection({ onPlanGenerated }: AIAssistantSecti
       {/* Support Section */}
       <div className="mt-6 sm:mt-8 bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 sm:p-6 text-center">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Dúvidas sobre seu plano?</h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">Fale conosco para otimizar seus estudos</p>
-        <SupportButton position="inline" variant="primary" />
+        <p className="text-gray-600 dark:text-gray-300 mb-4">Use o ícone de suporte no header para falar conosco</p>
       </div>
-
-      {/* Fixed Support Button */}
-      <SupportButton />
     </div>
   );
 }

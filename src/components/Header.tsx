@@ -79,6 +79,8 @@ export default function Header({ userName, userEmail, onLogout, onCommunityClick
 
       {/* Support Modal */}
       {showSupportModal && (
+              )
+              }
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 lg:p-8">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md">
             <div className="text-center mb-6">

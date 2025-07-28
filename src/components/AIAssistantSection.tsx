@@ -206,6 +206,29 @@ export default function AIAssistantSection({ onPlanGenerated }: AIAssistantSecti
           </div>
         </div>
 
+        {/* Generated Plan Download - Mobile */}
+        {generatedPlan && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Plano Gerado</h3>
+            <div className="bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 mb-4">
+              <h4 className="text-base font-medium text-purple-900 dark:text-white mb-2">{generatedPlan.title}</h4>
+              <div className="text-sm text-purple-800 dark:text-gray-300 space-y-1">
+                <p>Nível: {generatedPlan.level}</p>
+                <p>Objetivo: {generatedPlan.objective}</p>
+                <p>Tempo diário: {generatedPlan.dailyTime}</p>
+              </div>
+            </div>
+            <button
+              onClick={downloadPlan}
+              className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-base font-semibold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Baixar Plano Completo
+            </button>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">Válido por 30 dias</p>
+          </div>
+        )}
+
         {/* Templates com scroll horizontal */}
         <div className="mb-6">
           <div className="flex space-x-3 overflow-x-auto pb-4 px-4 scrollbar-hide">

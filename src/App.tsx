@@ -212,7 +212,7 @@ export default function App() {
           onLockedTabClick={handleLockedTabClick}
         />
         
-        <main className="pb-8 pt-0 lg:pt-4">
+        <main className="pb-20 lg:pb-8 pt-0 lg:pt-4">
           {activeTab === 'onboarding' && <OnboardingSection />}
           {activeTab === 'ai-assistant' && (
             <AIAssistantSection onPlanGenerated={handlePlanGenerated} />

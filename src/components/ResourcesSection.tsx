@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, FileText, Headphones, Video, BookOpen, Star, Play, ArrowRight, Clock, Award } from 'lucide-react';
+import { Download, FileText, Headphones, Video, BookOpen, Star, Play, ArrowRight, Clock, Award, MessageSquare } from 'lucide-react';
 import SupportButton from './SupportButton';
 import { bonusResources } from '../data/bonusData';
 import BonusDetailPage from './BonusDetailPage';
@@ -238,7 +238,16 @@ export default function ResourcesSection() {
       <div className="mt-6 sm:mt-8 bg-green-50 dark:bg-green-900/30 rounded-lg p-4 sm:p-6 text-center">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Problemas com downloads?</h3>
         <p className="text-gray-600 dark:text-gray-300 mb-4">Nossa equipe está aqui para te ajudar</p>
-        <SupportButton position="inline" variant="primary" />
+        <button 
+          className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+          onClick={() => {
+            const event = new CustomEvent('openSupport');
+            window.dispatchEvent(event);
+          }}
+        >
+          <MessageSquare className="mr-2 h-5 w-5" />
+          Falar com Suporte
+        </button>
       </div>
     </div>
   );

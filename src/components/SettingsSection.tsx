@@ -1,5 +1,5 @@
 import React from 'react';
-import { Monitor, Moon, Sun, User, Shield, Bell, Palette, Eye, EyeOff, Lock } from 'lucide-react';
+import { Monitor, Moon, Sun, User, Shield, Bell, Palette, Eye, EyeOff, Lock, MessageSquare } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import SupportButton from './SupportButton';
@@ -328,7 +328,17 @@ export default function SettingsSection() {
       {/* Support Section */}
       <div className="mt-6 sm:mt-8 bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 sm:p-6 text-center">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Precisa de ajuda com as configurações?</h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">Use o ícone de suporte no header para falar conosco</p>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">Nossa equipe está aqui para te apoiar</p>
+        <button 
+          className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+          onClick={() => {
+            const event = new CustomEvent('openSupport');
+            window.dispatchEvent(event);
+          }}
+        >
+          <MessageSquare className="mr-2 h-5 w-5" />
+          Falar com Suporte
+        </button>
       </div>
     </div>
   );

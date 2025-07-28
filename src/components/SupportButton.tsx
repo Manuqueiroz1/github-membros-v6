@@ -9,6 +9,16 @@ interface SupportButtonProps {
 export default function SupportButton({ position = 'fixed', variant = 'primary' }: SupportButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Listen for global support open event
+  React.useEffect(() => {
+    const handleOpenSupport = () => {
+      setIsOpen(true);
+    };
+
+    window.addEventListener('openSupport', handleOpenSupport);
+    return () => window.removeEventListener('openSupport', handleOpenSupport);
+  }, []);
+
   const supportOptions = [
     {
       title: 'Email',

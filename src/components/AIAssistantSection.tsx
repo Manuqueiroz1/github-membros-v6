@@ -122,7 +122,35 @@ export default function AIAssistantSection({ onPlanGenerated }: AIAssistantSecti
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
         {/* Templates */}
         <div className="lg:col-span-1 order-2 lg:order-1">
-          <div className="space-y-6">
+          {/* Templates com scroll horizontal no mobile */}
+          <div className="lg:hidden mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 px-4">Templates Rápidos</h3>
+            <div className="flex space-x-3 overflow-x-auto pb-4 px-4 scrollbar-hide">
+              {studyPlanTemplates.map((template, index) => {
+                const Icon = template.icon;
+                return (
+                  <button
+                    key={index}
+                    onClick={() => handleTemplateSelect(template)}
+                    className="flex-shrink-0 w-48 p-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors bg-white dark:bg-gray-800"
+                  >
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Icon className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                      <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">{template.title}</h4>
+                    </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-300 text-left line-clamp-2 mb-2">{template.description}</p>
+                    <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
+                      <Clock className="h-3 w-3 mr-1" />
+                      {template.duration}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Templates desktop */}
+          <div className="hidden lg:block space-y-6">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Templates Rápidos</h3>
               <div className="space-y-3">
@@ -173,6 +201,7 @@ export default function AIAssistantSection({ onPlanGenerated }: AIAssistantSecti
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">Válido por 30 dias</p>
               </div>
             )}
+          </div>
           </div>
         </div>
 

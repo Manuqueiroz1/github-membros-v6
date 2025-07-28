@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Settings, Shield } from 'lucide-react';
+import { Users, Settings, Shield, MessageSquare } from 'lucide-react';
 import { isAdmin } from '../utils/adminConfig';
 
 interface HeaderProps {
@@ -45,6 +45,18 @@ export default function Header({ userName, userEmail, onLogout, onCommunityClick
             ) : (
               /* Student View */
               <>
+                <button 
+                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  title="Suporte"
+                  onClick={() => {
+                    // Trigger support modal
+                    const event = new CustomEvent('openSupport');
+                    window.dispatchEvent(event);
+                  }}
+                >
+                  <MessageSquare className="h-5 w-5" />
+                </button>
+                
                 <button 
                   onClick={onCommunityClick}
                   className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"

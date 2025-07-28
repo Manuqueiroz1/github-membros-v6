@@ -12,7 +12,8 @@ export default function Navigation({
   activeTab, 
   onTabChange, 
   lockedTabs = [], 
-  onLockedTabClick
+  onLockedTabClick,
+  isMobile = false
 }: NavigationProps) {
   const tabs = [
     { id: 'onboarding', label: 'Início', icon: Home },
@@ -30,9 +31,11 @@ export default function Navigation({
   };
 
   return (
-      <nav className="bg-white dark:bg-gray-800 shadow-sm sticky top-16 z-30">
+    <>
+      {/* Desktop Navigation */}
+      <nav className="hidden lg:block bg-white dark:bg-gray-800 shadow-sm sticky top-16 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8 overflow-x-auto scrollbar-hide lg:flex">
+          <div className="flex space-x-8">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isLocked = lockedTabs.includes(tab.id);
@@ -55,39 +58,40 @@ export default function Navigation({
             })}
           </div>
         </div>
-
-        {/* Mobile Bottom Navigation */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 safe-area-bottom z-40">
-          <div className="grid grid-cols-4 h-16">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const isLocked = lockedTabs.includes(tab.id);
-              const isActive = activeTab === tab.id;
-              
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabClick(tab.id)}
-                  className={`flex flex-col items-center justify-center space-y-1 transition-colors ${
-                    isLocked
-                      ? 'text-gray-400 dark:text-gray-500'
-                      : isActive
-                      ? 'text-purple-600 dark:text-purple-400'
-                      : 'text-gray-500 dark:text-gray-400'
-                  }`}
-                >
-                  <Icon className="h-5 w-5" />
-                  <span className="text-xs font-medium truncate max-w-full px-1">
-                    {tab.label}
-                  </span>
-                  {isActive && (
-                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-purple-600 rounded-b-full"></div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
       </nav>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-40">
+        <div className="grid grid-cols-4 h-16">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isLocked = lockedTabs.includes(tab.id);
+            const isActive = activeTab === tab.id;
+            
+            return (
+              <button
+                key={tab.id}
+                onClick={() => handleTabClick(tab.id)}
+                className={`flex flex-col items-center justify-center space-y-1 transition-colors relative ${
+                  isLocked
+                    ? 'text-gray-400 dark:text-gray-500'
+                    : isActive
+                    ? 'text-purple-600 dark:text-purple-400'
+                    : 'text-gray-500 dark:text-gray-400'
+                }`}
+              >
+                <Icon className="h-5 w-5" />
+                <span className="text-xs font-medium truncate max-w-full px-1">
+                  {tab.label}
+                </span>
+                {isActive && (
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-purple-600 rounded-b-full"></div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </>
   );
 }

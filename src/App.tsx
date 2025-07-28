@@ -244,4 +244,5 @@ export default function App() {
       )}
     </>
   );
+  isMobile?: boolean;
 }

@@ -169,6 +169,7 @@ export default function ResourcesSection() {
               </div>
               
               <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">{resource.title}</h3>
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">{resource.title}</h3>
              <p className="text-gray-700 dark:text-gray-300 text-sm mb-4 line-clamp-3">{resource.description}</p>
               
               {/* Stats */}

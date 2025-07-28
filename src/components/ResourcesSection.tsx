@@ -168,7 +168,7 @@ export default function ResourcesSection() {
                 </div>
               </div>
               
-              <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">{resource.title}</h3>
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">{resource.title}</h3>
               
               {/* Stats */}
               <div className="flex items-center justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-4">

@@ -30,8 +30,8 @@ export default function Header({ userName, userEmail, onLogout, onCommunityClick
               </h1>
             </div>
           </div>
-          
-              {/* Suporte - apenas no desktop */}
+            {isUserAdmin ? (
+              /* Admin View */
               <button 
                 className="hidden lg:block p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                 title="Suporte"
@@ -47,7 +47,7 @@ export default function Header({ userName, userEmail, onLogout, onCommunityClick
               /* Student View */
               <>
                 <button 
-                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="hidden lg:block p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                   title="Suporte"
                   onClick={() => {
                     // Trigger support modal
@@ -77,7 +77,6 @@ export default function Header({ userName, userEmail, onLogout, onCommunityClick
             )}
           </div>
         </div>
-      </div>
     </header>
   );
 }
